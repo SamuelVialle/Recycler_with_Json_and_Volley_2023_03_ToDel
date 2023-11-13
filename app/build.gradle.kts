@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.samuelvialle.a_2023_03_recyclerwithjsonandvolley"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.samuelvialle.a_2023_03_recyclerwithjsonandvolley"
@@ -39,4 +39,14 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // Graphisme
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.cardview:cardview:1.0.0")
+
+    // Glide pour les images
+    implementation("com.github.bumptech.glide:glide:4.14.2")
+
+    // Volley pour les requetes Http
+    implementation("com.android.volley:volley:1.2.1")
 }
