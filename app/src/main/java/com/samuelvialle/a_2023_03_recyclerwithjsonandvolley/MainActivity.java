@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -120,6 +121,18 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycler.M
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(MainActivity.this, "TOTO", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DetailActivity.class);
+        ModelItem currentItem = arrayList.get(position);
+
+        String imageUrl = currentItem.getImageUrl();
+        String creator = currentItem.getCreator();
+        int likes = currentItem.getLikes();
+
+        intent.putExtra(JSON_IMAGE_URL, imageUrl);
+        intent.putExtra(JSON_USER, creator);
+        intent.putExtra(JSON_LIKES, likes);
+
+        startActivity(intent);
+
     }
 }
