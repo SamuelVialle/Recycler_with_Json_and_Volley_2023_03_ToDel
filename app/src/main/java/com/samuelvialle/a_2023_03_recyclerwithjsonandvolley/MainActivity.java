@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,9 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     /** Globals VARS **/
     private RecyclerView recyclerView;
-    private EditText etSearch;
     private Button btnSearch;
     private ArrayList<ModelItem> arrayList; // ArrayList basé.e sur note model
+    private EditText etSearch;
     private String search; // String de la recherche dans l'editText
     private AdapterRecycler adapter; // Gestion de notre Adapter
     private RequestQueue requestQueue; // Gestion de Volley
@@ -38,6 +39,22 @@ public class MainActivity extends AppCompatActivity {
        requestQueue = Volley.newRequestQueue(this);
     }
 
+    private void parseJSON(){
+        String pixabayKey = "24175925-f2016e765d25a20f1cb0a6989";
+        String urlJSONFile = "https://pixabay.com/api/"
+                + "?key="
+                + pixabayKey
+                + "&q="
+                + "beach" // ici la recherche
+                + "&image_type=photo"
+                + "&orientation=horizontal"
+                + "&per_page=30"
+                + "&pretty=true";
+
+        Log.i("TAG", "parseJSON: " + urlJSONFile);
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,5 +62,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initUI();
+
+        parseJSON();
+
     }
 }
