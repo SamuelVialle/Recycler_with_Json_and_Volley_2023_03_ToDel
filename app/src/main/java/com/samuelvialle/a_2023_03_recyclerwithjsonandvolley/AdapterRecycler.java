@@ -40,10 +40,10 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyView
 
         String imageUrl = currentItem.getImageUrl();
         String creator = currentItem.getCreator();
-        String likes = currentItem.getLikes();
+        int likes = currentItem.getLikes();
 
         holder.tvCreator.setText(creator);
-        holder.tvLikes.setText(likes);
+        holder.tvLikes.setText("Likes: " + likes);
 
         Context context1 = holder.ivImage.getContext();
 

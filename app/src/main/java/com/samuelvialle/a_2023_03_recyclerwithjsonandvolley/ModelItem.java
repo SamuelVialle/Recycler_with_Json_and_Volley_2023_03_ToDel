@@ -3,9 +3,9 @@ package com.samuelvialle.a_2023_03_recyclerwithjsonandvolley;
 public class ModelItem {
     private final String imageUrl;
     private final String creator;
-    private final String likes;
+    private final int likes;
 
-    public ModelItem(String imageUrl, String creator, String likes) {
+    public ModelItem(String imageUrl, String creator, int likes) {
         this.imageUrl = imageUrl;
         this.creator = creator;
         this.likes = likes;
@@ -19,7 +19,7 @@ public class ModelItem {
         return creator;
     }
 
-    public String getLikes() {
+    public int getLikes() {
         return likes;
     }
 }

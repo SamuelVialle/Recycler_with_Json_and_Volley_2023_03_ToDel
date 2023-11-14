@@ -1,5 +1,7 @@
 package com.samuelvialle.a_2023_03_recyclerwithjsonandvolley;
 
+import static com.samuelvialle.a_2023_03_recyclerwithjsonandvolley.Nodes.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,13 +10,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterRecycler.MyOnItemClickListener {
 
     /** Globals VARS **/
     private RecyclerView recyclerView;
@@ -53,7 +64,39 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("TAG", "parseJSON: " + urlJSONFile);
 
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                urlJSONFile,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray(JSON_ARRAY);
 
+                            for(int i=0; i<jsonArray.length(); i++){
+                                JSONObject hit = jsonArray.getJSONObject(i);
+                                String imageUrl = hit.getString(JSON_IMAGE_URL);
+                                String creator = hit.getString(JSON_USER);
+                                int likes = hit.getInt(JSON_LIKES);
+
+                                arrayList.add(new ModelItem(imageUrl, creator, likes));
+                            }
+                            adapter = new AdapterRecycler(MainActivity.this, arrayList);
+                            recyclerView.setAdapter(adapter);
+                            adapter.setMyOnItemClickListener(MainActivity.this);
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+                requestQueue.add(request);
     }
 
     @Override
@@ -65,5 +108,10 @@ public class MainActivity extends AppCompatActivity {
 
         parseJSON();
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(MainActivity.this, "TOTO", Toast.LENGTH_SHORT).show();
     }
 }
