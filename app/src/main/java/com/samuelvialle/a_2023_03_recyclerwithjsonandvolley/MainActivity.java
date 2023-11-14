@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycler.M
     private AdapterRecycler adapter; // Gestion de notre Adapter
     private RequestQueue requestQueue; // Gestion de Volley
 
+    private View rootView;
+
     /** Initialisation des composants graphiques et autres composants **/
     private void initUI(){
        recyclerView = findViewById(R.id.recycler);
@@ -48,15 +51,22 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycler.M
        arrayList = new ArrayList<>();
 
        requestQueue = Volley.newRequestQueue(this);
+
     }
 
-    private void parseJSON(){
+    public void newSearch(View view){
+        arrayList.clear();
+        search = etSearch.getText().toString().trim();
+        parseJSON(search);
+    }
+
+    private void parseJSON(String search){
         String pixabayKey = "24175925-f2016e765d25a20f1cb0a6989";
         String urlJSONFile = "https://pixabay.com/api/"
                 + "?key="
                 + pixabayKey
                 + "&q="
-                + "beach" // ici la recherche
+                + search // ici la recherche
                 + "&image_type=photo"
                 + "&orientation=horizontal"
                 + "&per_page=30"
@@ -99,15 +109,13 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycler.M
                 requestQueue.add(request);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initUI();
-
-        parseJSON();
-
+        parseJSON(search);
     }
 
     @Override
